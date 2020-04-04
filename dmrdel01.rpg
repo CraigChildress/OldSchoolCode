@@ -1,0 +1,11 @@
+     H
+     FINPUT   IPE F4080  80            DISK14       S
+     FOUTPUT  O   F4080  80            DISK14       S
+     IINPUT   AA  01
+     I                                        1   2 CODE
+     I                                        3  80 DATA
+     C**N01N02N03FACTOR1+++OPCODFACTOR2+++RESULTLENDHHILOEQ
+     C   01      CODE      COMP 'DL'                 0202
+     OOUTPUT  D        01 02
+     O                         CODE       2
+     O                         DATA      80

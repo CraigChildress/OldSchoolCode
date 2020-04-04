@@ -1,0 +1,68 @@
+     H
+     FINPUT   UPE F4080  80            DISK14       S
+     FDEMOG   O   F8560 214            DISK14       S
+     IINPUT   AA  01   1 CA   2 C.
+     I                                        3  11 ACCT
+     I        AA  02   1 CB   2 C.
+     I                                        3  17 FNAME
+     I        AA  03   1 CC   2 C.
+     I                                        3   3 MI
+     I        AA  04   1 CD   2 C.
+     I                                        3  22 LNAME
+     I        AA  05   1 CE   2 C.
+     I                                        3  27 STREET
+     I        AA  06   1 CF   2 C.
+     I                                        3  27 ADDR2
+     I        AA  07   1 CG   2 C.
+     I                                        3  22 CITY
+     I        AA  08   1 CH   2 C.
+     I                                        3   4 STATE
+     I        AA  09   1 CI   2 C.
+     I                                        3   8 POSTAL
+     I        AA  10   1 CJ   2 C.
+     I                                        3  12 PHONE
+     I        AA  11   1 CK   2 C.
+     I                                        3  12 MOBILE
+     I        AA  12   1 CL   2 C.
+     I                                        3  52 EMAIL
+     I        AA  13   1 C*   2 C*
+     I                                        3  52 NODATA
+     I        AA  99
+     C**N01N02N03FACTOR1+++OPCODFACTOR2+++RESULTLENDHHILOEQ
+     C                     MOVE 'A'       RECID   1
+     C                     MOVE '     '   FLAGA   5
+     C                     MOVE '     '   FLAGB   5
+     C                     MOVE '     '   FUTURE  5
+     C                     MOVE 'DL'      STATUS  2
+     ODEMOG   D        13
+     O                         RECID      1
+     O                         ACCT   B  10
+     O                         LNAME  B  30
+     O                         FNAME  B  45
+     O                         MI     B  46
+     O                         STREET B  71
+     O                         ADDR2  B  96
+     O                         CITY   B 116
+     O                         STATE  B 118
+     O                         POSTAL B 127
+     O                         PHONE  B 137
+     O                         MOBILE B 147
+     O                         EMAIL  B 197
+     O                         FLAGA  B 202
+     O                         FLAGB  B 207
+     O                         FUTURE B 214
+     OINPUT   D        01
+     O       OR        02
+     O       OR        03
+     O       OR        04
+     O       OR        05
+     O       OR        06
+     O       OR        07
+     O       OR        08
+     O       OR        09
+     O       OR        10
+     O       OR        11
+     O       OR        12
+     O       OR        13
+     O       OR        99
+     O                         STATUS     2

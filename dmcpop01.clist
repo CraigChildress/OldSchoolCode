@@ -1,0 +1,158 @@
+PROC 0                                                                  00000100
+/*************************************************/                     00000200
+/* CLIST DMCPOP01 - CATA COLLECTION FRONTEND    **/                     00000300
+/*  TO POPULATE A CUSTOMER DEMOGRAPHICS TILE.   **/                     00000400
+/*  THIS OUTPUT OF THIS PROGRAM IS A FILE       **/                     00000500
+/*  WITH TWP ELEMENTS:                         **/                      00000600
+/*  DATA ELEMENT ID (A., B., C., ETC)          **/                      00000700
+/*  AND THE ASSOCIATED FIELD REQUESTED          **/                     00000800
+/*  (ACCOUNT NUMBER, FIRST NAME, ETC)           **/                     00000900
+/*                                              **/                     00001000
+/*  A LIMITING FACTOR WITH WRITING FILES VIA    **/                     00001100
+/*  CLIST IS WE HAVE NO COLUMN ALIGNMENT POS-   **/                     00001200
+/*  SIBLE. AFTER COLLECTING THE REQUIRED DATA   **/                     00001300
+/*  FOR THE CUSTOMER, THIS CLIST CALLS AN       **/                     00001400
+/*  RPG TO READ THE DATA JUST COLLECTED, AND    **/                     00001500
+/*  REFORMAT IT INTO THE LAYOUT REQUIRED FOR    **/                     00001600
+/*  OUR DEMOGRAPHICS DATABASE.                  **/                     00001700
+/*                                              **/                     00001800
+/*************************************************/                     00001900
+SET OPTION =                                                            00002000
+SET ZZYES = Y                                                           00002100
+SET ZZNO  = N                                                           00002200
+                                                                        00002300
+/*************************************************/                     00002400
+/* ALLOCATE AND OPEN OUR OUTFILE                 */                     00002500
+/*************************************************/                     00002600
+RESET: SET OPTION =                                                     00002700
+ALLOC F(DEMOGIN) DSNAME(DEMOGIN.DATA) MOD                               00002800
+OPENFILE DEMOGIN OUTPUT                                                 00002900
+                                                                        00003000
+/*************************************************/                     00003100
+/* RESET OUR VARIABLES.                          */                     00003200
+/*************************************************/                     00003300
+SET ACCT   =                                                            00003400
+SET FNAME  =                                                            00003500
+SET LNAME  =                                                            00003600
+SET MI     =                                                            00003700
+SET STREET1 =                                                           00003800
+SET STREET2 =                                                           00003900
+SET STREET3 =                                                           00004000
+SET ADDR2  =                                                            00004100
+SET CITY   =                                                            00004200
+SET STATE  =                                                            00004300
+SET POSTAL =                                                            00004400
+SET PHONE  =                                                            00004500
+SET MOBILE =                                                            00004600
+SET EMAIL  =                                                            00004700
+/*************************************************/                     00004800
+/* PRESENT THE INITIAL PROMPT.                   */                     00004900
+/*************************************************/                     00005000
+  CLS                                                                   00005100
+  WRITE &SYSUID     ACCOUNT DEMOGRAPHICS ENTRY       &SYSDATE           00005200
+  WRITE                                              &SYSTIME           00005300
+  WRITE                                                                 00005400
+  REVIEW: WRITENR CONTINUE (Y/N) ?                                      00005500
+  SET OPTION =                                                          00005600
+  READ OPTION                                                           00005700
+                                                                        00005800
+/****************************************************/                  00005900
+/* EXIT IF USER REQUESTED N TO THE CONTINUE PROMPT  */                  00006000
+/****************************************************/                  00006100
+  IF &OPTION EQ &ZZNO THEN GOTO CLEANUP                                 00006200
+                                                                        00006300
+/****************************************************/                  00006400
+/* PROMPT AND COLLECT DATA ELEMENTS IN TURN.        */                  00006500
+/****************************************************/                  00006600
+  PROCESS: CLS                                                          00006700
+                                                                        00006800
+     WRITENR ACCOUNT#:                                                  00006900
+     READ ACCT                                                          00007000
+     SET &DEMOGIN = &STR(A.&ACCT)                                       00007100
+     PUTFILE DEMOGIN                                                    00007200
+                                                                        00007300
+     WRITENR FIRST NAME:                                                00007400
+     READ FNAME                                                         00007500
+     SET &DEMOGIN = &STR(B.&FNAME)                                      00007600
+     PUTFILE DEMOGIN                                                    00007700
+                                                                        00007800
+     WRITENR INITIAL:                                                   00007900
+     READ MI                                                            00008000
+     SET &DEMOGIN = &STR(C.&MI)                                         00008100
+     PUTFILE DEMOGIN                                                    00008200
+                                                                        00008300
+     WRITENR LAST NAME:                                                 00008400
+     READ LNAME                                                         00008500
+     SET &DEMOGIN = &STR(D.&LNAME)                                      00008600
+     PUTFILE DEMOGIN                                                    00008700
+                                                                        00008800
+     WRITENR STREET:                                                    00008900
+     READ STREET1 STREET2 STREET3                                       00009000
+     SET &DEMOGIN = &STR(E.&STREET1 &STREET2 &STREET3)                  00009100
+     PUTFILE DEMOGIN                                                    00009200
+                                                                        00009300
+     WRITENR ADDRESS 2:                                                 00009400
+     READ ADDR2                                                         00009500
+     SET &DEMOGIN = &STR(F.&ADDR2)                                      00009600
+     PUTFILE DEMOGIN                                                    00009700
+                                                                        00009800
+     WRITENR CITY:                                                      00009900
+     READ CITY                                                          00010000
+     SET &DEMOGIN = &STR(G.&CITY)                                       00010100
+     PUTFILE DEMOGIN                                                    00010200
+                                                                        00010300
+     WRITENR STATE:                                                     00010400
+     READ STATE                                                         00010500
+     SET &DEMOGIN = &STR(H.&STATE)                                      00010600
+     PUTFILE DEMOGIN                                                    00010700
+                                                                        00010800
+     WRITENR ZIP/POSTAL:                                                00010900
+     READ POSTAL                                                        00011000
+     SET &DEMOGIN = &STR(I.&POSTAL)                                     00011100
+     PUTFILE DEMOGIN                                                    00011200
+                                                                        00011300
+     WRITENR PHONE:                                                     00011400
+     READ PHONE                                                         00011500
+     SET &DEMOGIN = &STR(J.&PHONE)                                      00011600
+     PUTFILE DEMOGIN                                                    00011700
+                                                                        00011800
+     WRITENR MOBILE:                                                    00011900
+     READ MOBILE                                                        00012000
+     SET &DEMOGIN = &STR(K.&MOBILE)                                     00012100
+     PUTFILE DEMOGIN                                                    00012200
+                                                                        00012300
+     WRITENR EMAIL:                                                     00012400
+     READ EMAIL                                                         00012500
+     SET &DEMOGIN = &STR(L.&EMAIL)                                      00012600
+     PUTFILE  DEMOGIN                                                   00012700
+     SET &DEMOGIN = &STR(**)                                            00012800
+     PUTFILE  DEMOGIN                                                   00012900
+     WRITE UPDATING MASTER FILE...                                      00013000
+                                                                        00013100
+/****************************************************/                  00013200
+/* AFTER POSTING OUR LAST DATA ELEMENT FOR THE      */                  00013300
+/* CUSTOMER, CLOSE OUR WORKFILE                     */                  00013400
+/****************************************************/                  00013500
+     CLOSFILE DEMOGIN                                                   00013600
+     FREE F(DEMOGIN)                                                    00013700
+     /** CALL THE RPG TO UPDATE MASTER FILE */                          00013800
+/****************************************************/                  00013900
+/* CALL THE RPG TO UPDATE THE MASTER FILE.          */                  00014000
+/****************************************************/                  00014100
+     ALLOC F(INPUT) DA(DEMOGIN.DATA) OLD                                00014200
+     ALLOC F(DEMOG) DA(NEWAPP.DEMOG.DATA) MOD                           00014300
+     CALL LOADLIB(DMRPOP01)                                             00014400
+     FREE F(INPUT DEMOG)                                                00014500
+                                                                        00014600
+/****************************************************/                  00014700
+/* DONE WITH THIS CUSTOMER, RETURN TO TOP OF LOOP.  */                  00014800
+/****************************************************/                  00014900
+  GOTO RESET                                                            00015000
+                                                                        00015100
+/********************************************************/              00015200
+/* CLEAN UP. CLOSE AND DEALLOC OUR WORKFIE, THEN EXIT.  */              00015300
+/********************************************************/              00015400
+CLEANUP: WRITE EXIT REQUESTED...                                        00015500
+CLOSFILE DEMOGIN                                                        00015600
+FREE F(DEMOGIN)                                                         00015700
+EXIT                                                                    00015800
